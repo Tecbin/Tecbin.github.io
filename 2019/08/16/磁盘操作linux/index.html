@@ -1,85 +1,24 @@
-extends includes/layout.pug
-
-block content
-  -
-    const prev = page.prev
-    const next = page.next
-    const dateConf = theme.post.date
-    const updatedConf = theme.post.updated
-    const sourceConf = theme.post.source
-    const excerptConf = theme.post.excerpt
-    const reward = theme.post.reward
-    const appID = theme.valine.app_id
-    const appKey = theme.valine.app_key
-    const tocContent = toc(page.content, theme.toc)
-  #post-bg
-    #post-title
-      if dateConf || updatedConf
-        #post-info
-          if dateConf
-            span date:
-              time(datetime=page.date.toJSON())#date
-                = ' ' + date(page.date, date_format)
-          if dateConf && updatedConf
-            br
-          if updatedConf
-            span updated:
-              time(datetime=page.updated.toJSON())#updated
-                = ' ' + date(page.updated, date_format)
-          if sourceConf
-            br
-            span#post-source Source File:
-              br
-              span= page.source
-      h1= page.title
-      hr
-    #post-content
-      if excerptConf
-        != page.content
-      else
-        != page.more
-      #paginator!= paginator()
-    #post-footer
-      if prev || next
-        hr
-      if prev !== undefined
-        a(href=url_for(prev.path))
-          |← Prev
-          =' ' + prev.title
-      if prev && next
-        <span style="color: #fe2"> | </span>
-      if next !== undefined
-        a(href=url_for(next.path))
-          =next.title + ' '
-          |Next →
-      if prev || next
-        hr
-    #bottom-btn
-      if tocContent.length > 0
-        a#to-index(href="#post-index" title="index") ≡
-      a#to-top(href="#post-title" title="to top") ∧
-    if reward === true
-      details#reward
-        summary 打赏
-        #alipay
-          span 支付宝 | Alipay
-          br
-          img(src='/img/Alipay.png')
-        #wechat
-          span 微信 | WeChat
-          br
-          img(src='/img/WeChat.png')
-    #Valine
-    script
-      |new Valine({
-      |  el: '#Valine'
-      |  , appId: '#{appID}'
-      |  , appKey: '#{appKey}'
-      |  , placeholder: '此条评论委托企鹅物流发送'
-      |})
-
-block aside-block
-  - const tocContent = toc(page.content, theme.toc)
-  if tocContent.length > 0
-    h1 INDEX
-    #post-index!= tocContent
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Linux磁盘操作 | AOI SPACE</title><script src="https://cdn.bootcss.com/valine/1.4.4/Valine.min.js"></script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/atom-one-dark-reasonable.min.css"></head><body><header><nav><a href="/">Home</a><a href="/archives">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><div id="post-info"><span>date:<time datetime="2019-08-15T23:52:54.000Z" id="date"> 2019-08-16</time></span><br><span>updated:<time datetime="2019-08-22T00:15:37.621Z" id="updated"> 2019-08-22</time></span></div><h1>Linux磁盘操作</h1><hr></div><div id="post-content"><h1 id="磁盘操作linux"><a href="#磁盘操作linux" class="headerlink" title="磁盘操作linux"></a>磁盘操作linux</h1><p> fdisk /dev/hdb</p>
+<p>1、查看Linux硬盘信息：</p>
+<p>sudo fdisk -l</p>
+<p>2、格式化新硬盘（很危险，注意操作时确定硬盘分区的位置）：</p>
+<p>sudo mkfs.ext4 /dev/sdb1</p>
+<p>3、创建/data目录（/data目录为硬盘将挂载的地方）：</p>
+<p>sudo mkdir /data</p>
+<p>4、挂载分区：</p>
+<p>sudo mount /dev/sdb1 /data</p>
+<p>5、查看磁盘分区的UUID</p>
+<p>sudo blkid</p>
+<p>6、配置开机自动挂载：<br>因为mount命令会在重启服务器后失效，所以要将分区信息写到/etc/fstab文件中让它永久挂载：</p>
+<p>sudo vim /etc/fstab</p>
+<p>UUID=11263962-9715-473f-9421-0b604e895aaa /data ext4 defaults 0 1</p>
+<p>7、重启系统</p>
+<p>修改完/etc/fstab文件后，运行</p>
+<p>sudo mount -a</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CP命令格式: CP [选项]  源文件或目录   目的文件或目录选项说明:-b 同名,备分原来的文件       </span><br><span class="line">-f 强制覆盖同名文件        </span><br><span class="line">-r  按递归方式保留原目录结构复制文件cp     -r     /tmp/a            /root/a</span><br><span class="line">记得有空格linux 怎么样复制文件夹内所有文件到另一个文件夹？</span><br><span class="line">cp -Rf /home/user1/* /root/temp/</span><br><span class="line">将 /home/user1目录下的所有东西拷到/root/temp/下而不拷贝user1目录本身。</span><br><span class="line">即格式为：cp -Rf 原路径/ 目的路径/</span><br><span class="line">sudo cp -Rf /data/new20150130 ./wudaoguanmv移动某个文件夹到另外一个文件夹下注意点：移动文件夹的话就不要再加 / 了，如下图那样。如果是移动文件夹下的所有文件的话就可以文件夹后面跟上 /*</span><br></pre></td></tr></table></figure>
+<div id="paginator"></div></div><div id="post-footer"><hr><a href="/2019/08/16/查找搜索显示大小/">← Prev 查找搜索显示大小</a><span style="color: #fe2"> | </span><a href="/2019/08/14/启动项/">1804启动项 Next →</a><hr></div><div id="bottom-btn"><a id="to-index" href="#post-index" title="index">≡</a><a id="to-top" href="#post-title" title="to top">∧</a></div><details id="reward"><summary>打赏</summary><div id="alipay"><span>支付宝 | Alipay</span><br><img src="/img/Alipay.png"></div><div id="wechat"><span>微信 | WeChat</span><br><img src="/img/WeChat.png"></div></details><div id="Valine"></div><script>new Valine({
+ el: '#Valine'
+ , appId: ''
+ , appKey: ''
+ , placeholder: '此条评论委托企鹅物流发送'
+})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/"> Dr.bin</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">19</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">0</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">0</span></div></section></div><div id="aside-block"><h1>INDEX</h1><div id="post-index"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#磁盘操作linux"><span class="toc-number">1.</span> <span class="toc-text">磁盘操作linux</span></a></li></ol></div></div><footer><nobr><span class="text-title">©</span><span class="text-content">1970 to 2020</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a href="http://hexo.io">Hexo&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script></body></html>

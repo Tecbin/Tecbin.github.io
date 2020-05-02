@@ -1,85 +1,12 @@
-extends includes/layout.pug
-
-block content
-  -
-    const prev = page.prev
-    const next = page.next
-    const dateConf = theme.post.date
-    const updatedConf = theme.post.updated
-    const sourceConf = theme.post.source
-    const excerptConf = theme.post.excerpt
-    const reward = theme.post.reward
-    const appID = theme.valine.app_id
-    const appKey = theme.valine.app_key
-    const tocContent = toc(page.content, theme.toc)
-  #post-bg
-    #post-title
-      if dateConf || updatedConf
-        #post-info
-          if dateConf
-            span date:
-              time(datetime=page.date.toJSON())#date
-                = ' ' + date(page.date, date_format)
-          if dateConf && updatedConf
-            br
-          if updatedConf
-            span updated:
-              time(datetime=page.updated.toJSON())#updated
-                = ' ' + date(page.updated, date_format)
-          if sourceConf
-            br
-            span#post-source Source File:
-              br
-              span= page.source
-      h1= page.title
-      hr
-    #post-content
-      if excerptConf
-        != page.content
-      else
-        != page.more
-      #paginator!= paginator()
-    #post-footer
-      if prev || next
-        hr
-      if prev !== undefined
-        a(href=url_for(prev.path))
-          |← Prev
-          =' ' + prev.title
-      if prev && next
-        <span style="color: #fe2"> | </span>
-      if next !== undefined
-        a(href=url_for(next.path))
-          =next.title + ' '
-          |Next →
-      if prev || next
-        hr
-    #bottom-btn
-      if tocContent.length > 0
-        a#to-index(href="#post-index" title="index") ≡
-      a#to-top(href="#post-title" title="to top") ∧
-    if reward === true
-      details#reward
-        summary 打赏
-        #alipay
-          span 支付宝 | Alipay
-          br
-          img(src='/img/Alipay.png')
-        #wechat
-          span 微信 | WeChat
-          br
-          img(src='/img/WeChat.png')
-    #Valine
-    script
-      |new Valine({
-      |  el: '#Valine'
-      |  , appId: '#{appID}'
-      |  , appKey: '#{appKey}'
-      |  , placeholder: '此条评论委托企鹅物流发送'
-      |})
-
-block aside-block
-  - const tocContent = toc(page.content, theme.toc)
-  if tocContent.length > 0
-    h1 INDEX
-    #post-index!= tocContent
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title># 计算机网络一些记录 | AOI SPACE</title><script src="https://cdn.bootcss.com/valine/1.4.4/Valine.min.js"></script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/atom-one-dark-reasonable.min.css"></head><body><header><nav><a href="/">Home</a><a href="/archives">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><div id="post-info"><span>date:<time datetime="2019-11-17T08:44:36.000Z" id="date"> 2019-11-17</time></span><br><span>updated:<time datetime="2019-11-17T08:45:41.795Z" id="updated"> 2019-11-17</time></span></div><h1># 计算机网络一些记录</h1><hr></div><div id="post-content"><h1 id="计算机网络一些记录"><a href="#计算机网络一些记录" class="headerlink" title="计算机网络一些记录"></a>计算机网络一些记录</h1><h2 id="网段："><a href="#网段：" class="headerlink" title="网段："></a>网段：</h2><p>从高位起（左至右）1的个数。</p>
+<p>计算容纳数量则需要-2</p>
+<p>掩码一样则在同一网段中。</p>
+<h2 id="端口相关："><a href="#端口相关：" class="headerlink" title="端口相关："></a>端口相关：</h2><h3 id="DMZ（Demilitarization-Zone"><a href="#DMZ（Demilitarization-Zone" class="headerlink" title="DMZ（Demilitarization Zone)"></a>DMZ（Demilitarization Zone)</h3><p>路由将一个内部ip接受外网全部封包，但还有很多设置选项。</p>
+<h3 id="UPnP-Universal-Plug-and-Plug"><a href="#UPnP-Universal-Plug-and-Plug" class="headerlink" title="UPnP(Universal Plug and Plug)"></a>UPnP(Universal Plug and Plug)</h3><p>路由和软件支持自动建立端口转发。</p>
+<h2 id="内网多路由器："><a href="#内网多路由器：" class="headerlink" title="内网多路由器："></a>内网多路由器：</h2><p>上级路由跳下级路由或网关内平级路由，需要设置跳往相应路由的静态路由表。平级路由都得设置其它平级的路由表，设置不当可能会导致10.3.x.x下可以访问10.4.x.x反之不行。</p>
+<div id="paginator"></div></div><div id="post-footer"><hr><a href="/2019/08/16/查找搜索显示大小/">查找搜索显示大小 Next →</a><hr></div><div id="bottom-btn"><a id="to-index" href="#post-index" title="index">≡</a><a id="to-top" href="#post-title" title="to top">∧</a></div><details id="reward"><summary>打赏</summary><div id="alipay"><span>支付宝 | Alipay</span><br><img src="/img/Alipay.png"></div><div id="wechat"><span>微信 | WeChat</span><br><img src="/img/WeChat.png"></div></details><div id="Valine"></div><script>new Valine({
+ el: '#Valine'
+ , appId: ''
+ , appKey: ''
+ , placeholder: '此条评论委托企鹅物流发送'
+})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/"> Dr.bin</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">19</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">0</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">0</span></div></section></div><div id="aside-block"><h1>INDEX</h1><div id="post-index"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#计算机网络一些记录"><span class="toc-number">1.</span> <span class="toc-text">计算机网络一些记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#网段："><span class="toc-number">1.1.</span> <span class="toc-text">网段：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#端口相关："><span class="toc-number">1.2.</span> <span class="toc-text">端口相关：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DMZ（Demilitarization-Zone"><span class="toc-number">1.2.1.</span> <span class="toc-text">DMZ（Demilitarization Zone)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UPnP-Universal-Plug-and-Plug"><span class="toc-number">1.2.2.</span> <span class="toc-text">UPnP(Universal Plug and Plug)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内网多路由器："><span class="toc-number">1.3.</span> <span class="toc-text">内网多路由器：</span></a></li></ol></li></ol></div></div><footer><nobr><span class="text-title">©</span><span class="text-content">1970 to 2020</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a href="http://hexo.io">Hexo&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script></body></html>
